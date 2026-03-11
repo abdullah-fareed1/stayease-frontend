@@ -1,0 +1,77 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace 'lk.grandhotel.stayease'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "lk.grandhotel.stayease"
+        minSdk 28
+        targetSdk 36
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        Properties localProperties = new Properties()
+        if (rootProject.file("local.properties").exists()) {
+            localProperties.load(rootProject.file("local.properties").newDataInputStream())
+        }
+        manifestPlaceholders = [mapsApiKey: localProperties.getProperty("MAPS_API_KEY", "")]
+        buildConfigField "String", "MAPS_API_KEY", "\"${localProperties.getProperty('MAPS_API_KEY', '')}\""
+        buildConfigField "String", "STRIPE_PUBLISHABLE_KEY", "\"${localProperties.getProperty('STRIPE_PUBLISHABLE_KEY', '')}\""
+        buildConfigField "String", "BASE_URL", "\"${localProperties.getProperty('BASE_URL', 'http://10.0.2.2:3000/api/')}\""
+    }
+
+    buildFeatures {
+        viewBinding true
+        buildConfig true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.8.3'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.8.3'
+    implementation 'androidx.navigation:navigation-fragment:2.7.7'
+    implementation 'androidx.navigation:navigation-ui:2.7.7'
+    implementation 'androidx.security:security-crypto:1.1.0-alpha06'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
+
+    implementation 'androidx.room:room-runtime:2.6.1'
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
+
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+
+    implementation 'com.google.android.gms:play-services-maps:19.0.0'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    implementation platform('com.google.firebase:firebase-bom:33.1.2')
+    implementation 'com.google.firebase:firebase-messaging'
+
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+}
