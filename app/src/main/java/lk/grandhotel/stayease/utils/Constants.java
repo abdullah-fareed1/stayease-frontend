@@ -6,6 +6,7 @@ public class Constants {
     public static final String BASE_URL = BuildConfig.BASE_URL;
     public static final int CACHE_EXPIRY_MS = 30 * 60 * 1000;
     public static final String PREF_NAME_USER = "user_prefs";
+    public static final String PREF_NAME_AUTH = "auth_prefs";
     public static final String PREF_NAME_SETTINGS = "settings_prefs";
     public static final String KEY_ACCESS_TOKEN = "access_token";
     public static final String KEY_REFRESH_TOKEN = "refresh_token";
@@ -18,4 +19,5 @@ public class Constants {
     public static final String KEY_FCM_TOKEN = "fcm_token";
     public static final String NOTIFICATION_CHANNEL_ID = "stayease_channel";
     public static final String NOTIFICATION_CHANNEL_NAME = "StayEase Notifications";
+
 }
