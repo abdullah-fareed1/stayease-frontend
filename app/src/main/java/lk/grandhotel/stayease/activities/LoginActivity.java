@@ -35,8 +35,9 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnSignIn.setOnClickListener(v -> attemptLogin());
 
         viewModel.authResult.observe(this, response -> {
+            if (response == null) return;
             hideLoading();
-            if (response != null && response.status && response.data != null) {
+            if (response.status && response.data != null) {
                 TokenPrefs.saveTokens(this, response.data.accessToken, response.data.refreshToken);
                 if (response.data.user != null) {
                     UserPrefs.saveUser(this,
@@ -45,15 +46,21 @@ public class LoginActivity extends AppCompatActivity {
                             response.data.user.email,
                             response.data.user.phone);
                 }
+                viewModel.clearAuthResult();
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+            } else if (response.message != null) {
+                Snackbar.make(binding.getRoot(), response.message, Snackbar.LENGTH_LONG).show();
+                viewModel.clearAuthResult();
             }
         });
 
         viewModel.authError.observe(this, msg -> {
+            if (msg == null) return;
             hideLoading();
-            if (msg != null) Snackbar.make(binding.getRoot(), msg, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(binding.getRoot(), msg, Snackbar.LENGTH_LONG).show();
+            viewModel.clearAuthResult();
         });
     }
 
@@ -79,10 +86,14 @@ public class LoginActivity extends AppCompatActivity {
 
         showLoading();
 
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-            String fcmToken = task.isSuccessful() ? task.getResult() : null;
-            viewModel.login(email, password, fcmToken);
-        });
+        try {
+            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+                String fcmToken = task.isSuccessful() ? task.getResult() : null;
+                viewModel.login(email, password, fcmToken);
+            });
+        } catch (Exception e) {
+            viewModel.login(email, password, null);
+        }
     }
 
     private void showLoading() {

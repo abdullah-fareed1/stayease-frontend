@@ -29,11 +29,20 @@ public class AuthRepository {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    result.postValue(response.body());
+                    if (response.body().status) {
+                        result.postValue(response.body());
+                    } else {
+                        error.postValue(response.body().message != null ? response.body().message : "Login failed");
+                    }
                 } else {
                     try {
-                        String msg = response.errorBody() != null ? response.errorBody().string() : "Login failed";
-                        error.postValue(msg);
+                        if (response.errorBody() != null) {
+                            String raw = response.errorBody().string();
+                            org.json.JSONObject json = new org.json.JSONObject(raw);
+                            error.postValue(json.optString("message", "Login failed"));
+                        } else {
+                            error.postValue("Login failed");
+                        }
                     } catch (Exception e) {
                         error.postValue("Login failed");
                     }
@@ -58,11 +67,20 @@ public class AuthRepository {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    result.postValue(response.body());
+                    if (response.body().status) {
+                        result.postValue(response.body());
+                    } else {
+                        error.postValue(response.body().message != null ? response.body().message : "Registration failed");
+                    }
                 } else {
                     try {
-                        String msg = response.errorBody() != null ? response.errorBody().string() : "Registration failed";
-                        error.postValue(msg);
+                        if (response.errorBody() != null) {
+                            String raw = response.errorBody().string();
+                            org.json.JSONObject json = new org.json.JSONObject(raw);
+                            error.postValue(json.optString("message", "Registration failed"));
+                        } else {
+                            error.postValue("Registration failed");
+                        }
                     } catch (Exception e) {
                         error.postValue("Registration failed");
                     }
@@ -106,8 +124,13 @@ public class AuthRepository {
                     result.postValue(true);
                 } else {
                     try {
-                        String msg = response.errorBody() != null ? response.errorBody().string() : "Invalid OTP or expired";
-                        error.postValue(msg);
+                        if (response.errorBody() != null) {
+                            String raw = response.errorBody().string();
+                            org.json.JSONObject json = new org.json.JSONObject(raw);
+                            error.postValue(json.optString("message", "Invalid OTP or expired"));
+                        } else {
+                            error.postValue("Invalid OTP or expired");
+                        }
                     } catch (Exception e) {
                         error.postValue("Reset failed");
                     }
