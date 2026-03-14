@@ -31,6 +31,10 @@ public class TokenAuthenticator implements Authenticator {
 
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
+        if (response.request().url().encodedPath().contains("/auth/")) {
+            return null;
+        }
+
         if (responseCount(response) >= 2) {
             forceLogout();
             return null;
