@@ -6,4 +6,25 @@
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="get_started">Get Started</string>
+
+    <string name="admin_login_title">Admin Login</string>
+    <string name="admin_panel">Admin Panel</string>
+    <string name="admin_forgot_title">Forgot Password</string>
+    <string name="admin_forgot_subtitle">Enter your admin email and we\'ll send you an OTP.</string>
+    <string name="admin_reset_title">Reset Password</string>
+    <string name="admin_reset_subtitle">Enter the OTP from your email and set a new password.</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="dashboard_title">Dashboard</string>
+    <string name="total_rooms">Total Rooms</string>
+    <string name="available_rooms">Available</string>
+    <string name="today_checkins">Check-ins Today</string>
+    <string name="today_checkouts">Check-outs Today</string>
+    <string name="total_revenue">Total Revenue</string>
+    <string name="monthly_revenue">This Month</string>
+    <string name="total_bookings">Total Bookings</string>
+    <string name="pending_bookings">Pending</string>
+    <string name="best_performing_rooms">Best Performing Rooms</string>
+    <string name="no_data">No data available</string>
+    <string name="logout">Logout</string>
 </resources>
