@@ -17,6 +17,7 @@ import lk.grandhotel.stayease.local.db.AppDatabase;
 import lk.grandhotel.stayease.local.db.entity.RoomEntity;
 import lk.grandhotel.stayease.local.db.entity.SearchHistoryEntity;
 import lk.grandhotel.stayease.network.ApiClient;
+import lk.grandhotel.stayease.network.models.RoomDetailResponse;
 import lk.grandhotel.stayease.network.models.RoomListResponse;
 import lk.grandhotel.stayease.network.models.RoomModel;
 import lk.grandhotel.stayease.utils.Constants;
@@ -152,5 +153,29 @@ public class RoomRepository {
             entities.add(e);
         }
         return entities;
+    }
+
+    public void getRoomById(String roomId,
+                            MutableLiveData<RoomModel> result,
+                            MutableLiveData<String> error) {
+        ApiClient.getService(context).getRoomById(roomId).enqueue(new Callback<RoomDetailResponse>() {
+            @Override
+            public void onResponse(Call<RoomDetailResponse> call, Response<RoomDetailResponse> response) {
+                if (response.isSuccessful()
+                        && response.body() != null
+                        && response.body().status
+                        && response.body().data != null
+                        && response.body().data.room != null) {
+                    result.postValue(response.body().data.room);
+                } else {
+                    error.postValue("Room not found.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RoomDetailResponse> call, Throwable t) {
+                error.postValue("Network error. Check your connection.");
+            }
+        });
     }
 }
