@@ -15,7 +15,7 @@ import lk.grandhotel.stayease.local.db.entity.SearchHistoryEntity;
 
 @Database(
         entities = {RoomEntity.class, BookingEntity.class, SearchHistoryEntity.class},
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
@@ -35,7 +35,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "stayease_db"
-                    ).build();
+                    ).fallbackToDestructiveMigration().build();
                 }
             }
         }

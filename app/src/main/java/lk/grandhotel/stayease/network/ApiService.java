@@ -2,11 +2,13 @@ package lk.grandhotel.stayease.network;
 
 import java.util.Map;
 
+import lk.grandhotel.stayease.network.models.AdminResponse;
 import lk.grandhotel.stayease.network.models.ApiResponse;
 import lk.grandhotel.stayease.network.models.AuthResponse;
 import lk.grandhotel.stayease.network.models.BookingDetailResponse;
 import lk.grandhotel.stayease.network.models.BookingListResponse;
 import lk.grandhotel.stayease.network.models.CartResponse;
+import lk.grandhotel.stayease.network.models.DashboardResponse;
 import lk.grandhotel.stayease.network.models.HotelConfigResponse;
 import lk.grandhotel.stayease.network.models.PaymentInitiateResponse;
 import lk.grandhotel.stayease.network.models.RefreshResponse;
@@ -95,4 +97,22 @@ public interface ApiService {
 
     @GET("hotel/config")
     Call<HotelConfigResponse> getHotelConfig();
+
+    @POST("admin/auth/login")
+    Call<AdminResponse> adminLogin(@Body Map<String, String> body);
+
+    @POST("admin/auth/refresh")
+    Call<RefreshResponse> adminRefresh(@Body Map<String, String> body);
+
+    @POST("admin/auth/logout")
+    Call<ApiResponse> adminLogout(@Body Map<String, String> body);
+
+    @POST("admin/auth/forgot-password")
+    Call<ApiResponse> adminForgotPassword(@Body Map<String, String> body);
+
+    @POST("admin/auth/reset-password")
+    Call<ApiResponse> adminResetPassword(@Body Map<String, String> body);
+
+    @GET("admin/dashboard/overview")
+    Call<DashboardResponse> getAdminDashboard();
 }
