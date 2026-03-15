@@ -47,11 +47,13 @@ public interface ApiService {
 
     @GET("rooms")
     Call<RoomListResponse> getRooms(
-            @Query("type") String type,
+            @Query("category") String category,
+            @Query("available") Boolean available,
             @Query("minPrice") Double minPrice,
             @Query("maxPrice") Double maxPrice,
-            @Query("guests") Integer guests,
-            @Query("search") String search
+            @Query("maxGuests") Integer maxGuests,
+            @Query("page") Integer page,
+            @Query("pageSize") Integer pageSize
     );
 
     @GET("rooms/{id}")
@@ -63,13 +65,13 @@ public interface ApiService {
     @POST("bookings")
     Call<BookingDetailResponse> createBooking(@Body Map<String, Object> body);
 
-    @GET("bookings")
+    @GET("bookings/my")
     Call<BookingListResponse> getMyBookings();
 
-    @GET("bookings/{id}")
+    @GET("bookings/my/{id}")
     Call<BookingDetailResponse> getBookingById(@Path("id") String bookingId);
 
-    @PATCH("bookings/{id}/cancel")
+    @DELETE("bookings/{id}/cancel")
     Call<BookingDetailResponse> cancelBooking(@Path("id") String bookingId);
 
     @GET("cart")

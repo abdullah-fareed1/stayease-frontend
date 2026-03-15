@@ -1,12 +1,15 @@
 package lk.grandhotel.stayease.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import androidx.fragment.app.Fragment;
+import lk.grandhotel.stayease.R;
 import lk.grandhotel.stayease.databinding.ActivityMainBinding;
-import lk.grandhotel.stayease.utils.TokenPrefs;
-import lk.grandhotel.stayease.utils.UserPrefs;
+import lk.grandhotel.stayease.ui.bookings.BookingsFragment;
+import lk.grandhotel.stayease.ui.home.HomeFragment;
+import lk.grandhotel.stayease.ui.map.MapFragment;
+import lk.grandhotel.stayease.ui.profile.ProfileFragment;
+import lk.grandhotel.stayease.ui.search.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,21 +21,30 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.btnLogout.setOnClickListener(v ->
-                new MaterialAlertDialogBuilder(this)
-                        .setTitle("Logout")
-                        .setMessage("Are you sure you want to logout?")
-                        .setPositiveButton("Logout", (dialog, which) -> performLogout())
-                        .setNegativeButton("Cancel", null)
-                        .show()
-        );
+        if (savedInstanceState == null) {
+            loadFragment(new HomeFragment());
+            binding.bottomNav.setSelectedItemId(R.id.nav_home);
+        }
+
+        binding.bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_home) { loadFragment(new HomeFragment()); return true; }
+            if (id == R.id.nav_search) { loadFragment(new SearchFragment()); return true; }
+            if (id == R.id.nav_bookings) { loadFragment(new BookingsFragment()); return true; }
+            if (id == R.id.nav_map) { loadFragment(new MapFragment()); return true; }
+            if (id == R.id.nav_profile) { loadFragment(new ProfileFragment()); return true; }
+            return false;
+        });
     }
 
-    private void performLogout() {
-        TokenPrefs.clearTokens(this);
-        UserPrefs.clear(this);
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+    private void loadFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+    }
+
+    public void navigateToTab(int navItemId) {
+        binding.bottomNav.setSelectedItemId(navItemId);
     }
 }
