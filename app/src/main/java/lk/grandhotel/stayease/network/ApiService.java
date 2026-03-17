@@ -2,11 +2,13 @@ package lk.grandhotel.stayease.network;
 
 import java.util.Map;
 
+import lk.grandhotel.stayease.network.models.AdminResponse;
 import lk.grandhotel.stayease.network.models.ApiResponse;
 import lk.grandhotel.stayease.network.models.AuthResponse;
 import lk.grandhotel.stayease.network.models.BookingDetailResponse;
 import lk.grandhotel.stayease.network.models.BookingListResponse;
 import lk.grandhotel.stayease.network.models.CartResponse;
+import lk.grandhotel.stayease.network.models.DashboardResponse;
 import lk.grandhotel.stayease.network.models.HotelConfigResponse;
 import lk.grandhotel.stayease.network.models.PaymentInitiateResponse;
 import lk.grandhotel.stayease.network.models.RefreshResponse;
@@ -47,11 +49,13 @@ public interface ApiService {
 
     @GET("rooms")
     Call<RoomListResponse> getRooms(
-            @Query("type") String type,
+            @Query("category") String category,
+            @Query("available") Boolean available,
             @Query("minPrice") Double minPrice,
             @Query("maxPrice") Double maxPrice,
-            @Query("guests") Integer guests,
-            @Query("search") String search
+            @Query("maxGuests") Integer maxGuests,
+            @Query("page") Integer page,
+            @Query("pageSize") Integer pageSize
     );
 
     @GET("rooms/{id}")
@@ -63,13 +67,13 @@ public interface ApiService {
     @POST("bookings")
     Call<BookingDetailResponse> createBooking(@Body Map<String, Object> body);
 
-    @GET("bookings")
+    @GET("bookings/my")
     Call<BookingListResponse> getMyBookings();
 
-    @GET("bookings/{id}")
+    @GET("bookings/my/{id}")
     Call<BookingDetailResponse> getBookingById(@Path("id") String bookingId);
 
-    @PATCH("bookings/{id}/cancel")
+    @DELETE("bookings/{id}/cancel")
     Call<BookingDetailResponse> cancelBooking(@Path("id") String bookingId);
 
     @GET("cart")
@@ -95,4 +99,22 @@ public interface ApiService {
 
     @GET("hotel/config")
     Call<HotelConfigResponse> getHotelConfig();
+
+    @POST("admin/auth/login")
+    Call<AdminResponse> adminLogin(@Body Map<String, String> body);
+
+    @POST("admin/auth/refresh")
+    Call<RefreshResponse> adminRefresh(@Body Map<String, String> body);
+
+    @POST("admin/auth/logout")
+    Call<ApiResponse> adminLogout(@Body Map<String, String> body);
+
+    @POST("admin/auth/forgot-password")
+    Call<ApiResponse> adminForgotPassword(@Body Map<String, String> body);
+
+    @POST("admin/auth/reset-password")
+    Call<ApiResponse> adminResetPassword(@Body Map<String, String> body);
+
+    @GET("admin/dashboard/overview")
+    Call<DashboardResponse> getAdminDashboard();
 }
