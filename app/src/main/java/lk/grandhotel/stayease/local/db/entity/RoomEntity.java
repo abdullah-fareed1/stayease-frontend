@@ -15,6 +15,7 @@ public class RoomEntity {
     public double pricePerNight;
     public int maxGuests;
     public String amenitiesJson;
+    public String primaryImageJson;
     public String imagesJson;
     public boolean isAvailable;
     public double averageRating;

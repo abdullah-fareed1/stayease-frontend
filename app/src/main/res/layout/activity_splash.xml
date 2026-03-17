@@ -6,42 +6,43 @@
     android:layout_height="match_parent"
     android:background="@color/primary">
 
-    <TextView
-        android:id="@+id/tv_app_name"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textColor="@color/on_primary"
-        android:textSize="36sp"
-        android:fontFamily="sans-serif-medium"
-        app:layout_constraintBottom_toTopOf="@id/tv_tagline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/logo_stayease"
+        android:contentDescription="StayEase"
+        android:adjustViewBounds="true"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/tv_tagline"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Perfect Stay Awaits"
-        android:textColor="#CCFFFFFF"
-        android:textSize="15sp"
-        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_app_name" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hotel_name"
-        android:textColor="#99FFFFFF"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="32dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grand Horizon Hotels © 2026"
+            android:textColor="#CCFFFFFF"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Developed by Abdullah Fareed · HHDP II"
+            android:textColor="#88FFFFFF"
+            android:textSize="11sp"
+            android:layout_marginTop="3dp"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
