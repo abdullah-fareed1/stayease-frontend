@@ -40,6 +40,36 @@
 
         </LinearLayout>
 
+        <!-- Cart icon with badge -->
+        <FrameLayout
+            android:id="@+id/fl_cart_icon"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="10dp">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_cart"
+                android:contentDescription="Cart"
+                app:tint="@color/on_surface"/>
+
+            <TextView
+                android:id="@+id/tv_cart_badge"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="top|end"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/on_primary"
+                android:background="@drawable/bg_cart_badge"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+        <!-- Avatar circle -->
         <TextView
             android:id="@+id/tv_avatar"
             android:layout_width="44dp"

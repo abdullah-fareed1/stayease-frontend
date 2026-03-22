@@ -1,8 +1,10 @@
 package lk.grandhotel.stayease.ui.home;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.ChipGroup;
 
 import lk.grandhotel.stayease.R;
+import lk.grandhotel.stayease.activities.CartActivity;
 
 public class HomeHeaderAdapter extends RecyclerView.Adapter<HomeHeaderAdapter.HeaderViewHolder> {
 
@@ -21,6 +24,7 @@ public class HomeHeaderAdapter extends RecyclerView.Adapter<HomeHeaderAdapter.He
     private String userName = "Guest";
     private String greeting = "Good morning,";
     private int roomCount = 0;
+    private int cartCount = 0;
     private final OnCategorySelectedListener listener;
 
     public HomeHeaderAdapter(OnCategorySelectedListener listener) {
@@ -42,6 +46,11 @@ public class HomeHeaderAdapter extends RecyclerView.Adapter<HomeHeaderAdapter.He
         notifyItemChanged(0);
     }
 
+    public void setCartCount(int count) {
+        this.cartCount = count;
+        notifyItemChanged(0);
+    }
+
     @NonNull
     @Override
     public HeaderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -57,14 +66,24 @@ public class HomeHeaderAdapter extends RecyclerView.Adapter<HomeHeaderAdapter.He
         h.tvAvatar.setText(userName.isEmpty() ? "G" : String.valueOf(userName.charAt(0)).toUpperCase());
         h.tvRoomCount.setText(roomCount > 0 ? roomCount + " rooms" : "");
 
+        if (cartCount > 0) {
+            h.tvCartBadge.setVisibility(View.VISIBLE);
+            h.tvCartBadge.setText(cartCount > 99 ? "99+" : String.valueOf(cartCount));
+        } else {
+            h.tvCartBadge.setVisibility(View.GONE);
+        }
+
+        h.flCartIcon.setOnClickListener(v ->
+                v.getContext().startActivity(new Intent(v.getContext(), CartActivity.class)));
+
         h.chipGroupCategory.setOnCheckedStateChangeListener((group, checkedIds) -> {
             if (checkedIds.isEmpty()) return;
             int id = checkedIds.get(0);
             String category = null;
-            if (id == R.id.chip_standard) category = "STANDARD";
-            else if (id == R.id.chip_deluxe) category = "DELUXE";
-            else if (id == R.id.chip_suite) category = "SUITE";
-            else if (id == R.id.chip_family) category = "FAMILY";
+            if (id == R.id.chip_standard)      category = "STANDARD";
+            else if (id == R.id.chip_deluxe)   category = "DELUXE";
+            else if (id == R.id.chip_suite)    category = "SUITE";
+            else if (id == R.id.chip_family)   category = "FAMILY";
             listener.onCategorySelected(category);
         });
     }
@@ -73,15 +92,18 @@ public class HomeHeaderAdapter extends RecyclerView.Adapter<HomeHeaderAdapter.He
     public int getItemCount() { return 1; }
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView tvGreeting, tvUserName, tvAvatar, tvRoomCount;
+        TextView tvGreeting, tvUserName, tvAvatar, tvRoomCount, tvCartBadge;
+        FrameLayout flCartIcon;
         ChipGroup chipGroupCategory;
 
         HeaderViewHolder(@NonNull View v) {
             super(v);
-            tvGreeting       = v.findViewById(R.id.tv_greeting);
-            tvUserName       = v.findViewById(R.id.tv_user_name);
-            tvAvatar         = v.findViewById(R.id.tv_avatar);
-            tvRoomCount      = v.findViewById(R.id.tv_room_count);
+            tvGreeting        = v.findViewById(R.id.tv_greeting);
+            tvUserName        = v.findViewById(R.id.tv_user_name);
+            tvAvatar          = v.findViewById(R.id.tv_avatar);
+            tvRoomCount       = v.findViewById(R.id.tv_room_count);
+            tvCartBadge       = v.findViewById(R.id.tv_cart_badge);
+            flCartIcon        = v.findViewById(R.id.fl_cart_icon);
             chipGroupCategory = v.findViewById(R.id.chip_group_category);
         }
     }

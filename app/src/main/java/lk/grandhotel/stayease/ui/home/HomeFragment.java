@@ -28,14 +28,12 @@ import lk.grandhotel.stayease.utils.UserPrefs;
 
 public class HomeFragment extends Fragment {
 
-    private FragmentHomeBinding   binding;
-    private HomeViewModel         viewModel;
-    private RoomAdapter           roomAdapter;
-    private HomeHeaderAdapter     headerAdapter;
-    private SensorManager         sensorManager;
-    private ShakeDetector         shakeDetector;
-    private String                selectedCategory = null;
-    private boolean refreshedByShake = false;
+    private FragmentHomeBinding binding;
+    private HomeViewModel       viewModel;
+    private RoomAdapter         roomAdapter;
+    private HomeHeaderAdapter   headerAdapter;
+    private SensorManager       sensorManager;
+    private ShakeDetector       shakeDetector;
 
     @Nullable
     @Override
@@ -59,7 +57,6 @@ public class HomeFragment extends Fragment {
         });
 
         headerAdapter = new HomeHeaderAdapter(category -> {
-            selectedCategory = category;
             viewModel.loadRooms(category);
         });
 
@@ -72,16 +69,44 @@ public class HomeFragment extends Fragment {
         binding.rvRooms.setAdapter(concatAdapter);
 
         binding.swipeRefresh.setColorSchemeResources(lk.grandhotel.stayease.R.color.primary);
-        binding.swipeRefresh.setOnRefreshListener(() -> viewModel.refresh());
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            viewModel.refresh();
+            viewModel.loadCartCount();
+        });
 
         viewModel.rooms.observe(getViewLifecycleOwner(), this::onRoomsLoaded);
         viewModel.error.observe(getViewLifecycleOwner(), this::onError);
         viewModel.loading.observe(getViewLifecycleOwner(), loading -> {
             if (!loading) binding.swipeRefresh.setRefreshing(false);
         });
+        viewModel.cartCount.observe(getViewLifecycleOwner(), count ->
+                headerAdapter.setCartCount(count));
 
         setupShakeDetector();
         viewModel.loadRooms(null);
+        viewModel.loadCartCount();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.loadCartCount();
+        Sensor accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if (accel != null) {
+            sensorManager.registerListener(shakeDetector, accel, SensorManager.SENSOR_DELAY_UI);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(shakeDetector);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     private void onRoomsLoaded(List<RoomModel> rooms) {
@@ -103,32 +128,10 @@ public class HomeFragment extends Fragment {
         sensorManager = (SensorManager) requireContext().getSystemService(android.content.Context.SENSOR_SERVICE);
         shakeDetector = new ShakeDetector(() -> {
             if (getView() != null) {
-                refreshedByShake = true;
-                Snackbar.make(binding.getRoot(), "Shake detected! Refreshing rooms...", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.getRoot(), "Refreshing rooms...", Snackbar.LENGTH_SHORT).show();
                 viewModel.refresh();
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Sensor accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        if (accel != null) {
-            sensorManager.registerListener(shakeDetector, accel, SensorManager.SENSOR_DELAY_UI);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(shakeDetector);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 
     private String getGreeting() {
