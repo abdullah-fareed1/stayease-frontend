@@ -13,6 +13,8 @@ import lk.grandhotel.stayease.network.models.CheckoutResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import lk.grandhotel.stayease.network.models.BookingModel;
+import java.util.List;
 
 public class BookingRepository {
 
@@ -133,6 +135,113 @@ public class BookingRepository {
         });
     }
 
+    public void getMyBookings(String status,
+                              MutableLiveData<List<BookingModel>> result,
+                              MutableLiveData<String> error) {
+        ApiClient.getService(context).getMyBookings(status)
+                .enqueue(new Callback<BookingListResponse>() {
+                    @Override
+                    public void onResponse(Call<BookingListResponse> call,
+                                           Response<BookingListResponse> response) {
+                        if (response.isSuccessful() && response.body() != null
+                                && response.body().status && response.body().data != null) {
+                            result.postValue(response.body().data.bookings);
+                        } else {
+                            error.postValue("Failed to load bookings.");
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<BookingListResponse> call, Throwable t) {
+                        error.postValue("Network error. Check your connection.");
+                    }
+                });
+    }
+
+    public void getBookingById(String bookingId,
+                               MutableLiveData<BookingModel> result,
+                               MutableLiveData<String> error) {
+        ApiClient.getService(context).getBookingById(bookingId)
+                .enqueue(new Callback<BookingDetailResponse>() {
+                    @Override
+                    public void onResponse(Call<BookingDetailResponse> call,
+                                           Response<BookingDetailResponse> response) {
+                        if (response.isSuccessful() && response.body() != null
+                                && response.body().status && response.body().data != null) {
+                            result.postValue(response.body().data.booking);
+                        } else {
+                            error.postValue("Booking not found.");
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<BookingDetailResponse> call, Throwable t) {
+                        error.postValue("Network error. Check your connection.");
+                    }
+                });
+    }
+
+    public void cancelBooking(String bookingId,
+                              MutableLiveData<Boolean> result,
+                              MutableLiveData<String> error) {
+        ApiClient.getService(context).cancelBooking(bookingId)
+                .enqueue(new Callback<BookingDetailResponse>() {
+                    @Override
+                    public void onResponse(Call<BookingDetailResponse> call,
+                                           Response<BookingDetailResponse> response) {
+                        if (response.isSuccessful() && response.body() != null
+                                && response.body().status) {
+                            result.postValue(true);
+                        } else {
+                            String msg = "Cancellation failed.";
+                            try {
+                                if (response.errorBody() != null) {
+                                    String raw = response.errorBody().string();
+                                    org.json.JSONObject json = new org.json.JSONObject(raw);
+                                    msg = json.optString("message", msg);
+                                }
+                            } catch (Exception ignored) {}
+                            error.postValue(msg);
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<BookingDetailResponse> call, Throwable t) {
+                        error.postValue("Network error. Check your connection.");
+                    }
+                });
+    }
+
+    public void submitReview(String bookingId, int rating, String comment,
+                             MutableLiveData<Boolean> result,
+                             MutableLiveData<String> error) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("bookingId", bookingId);
+        body.put("rating", rating);
+        body.put("comment", comment);
+        ApiClient.getService(context).createReview(body)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse> call,
+                                           Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null
+                                && response.body().status) {
+                            result.postValue(true);
+                        } else {
+                            String msg = "Failed to submit review.";
+                            try {
+                                if (response.errorBody() != null) {
+                                    String raw = response.errorBody().string();
+                                    org.json.JSONObject json = new org.json.JSONObject(raw);
+                                    msg = json.optString("message", msg);
+                                }
+                            } catch (Exception ignored) {}
+                            error.postValue(msg);
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        error.postValue("Network error. Check your connection.");
+                    }
+                });
+    }
     public void checkoutCart(String paymentType,
                              MutableLiveData<CheckoutResponse> result,
                              MutableLiveData<String> error) {
