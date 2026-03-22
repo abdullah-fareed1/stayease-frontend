@@ -22,19 +22,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if (savedInstanceState == null) {
-            loadFragment(new HomeFragment());
-            binding.bottomNav.setSelectedItemId(R.id.nav_home);
+            int navigateTo = getIntent().getIntExtra("navigate_to", R.id.nav_home);
+            loadFragment(fragmentForId(navigateTo));
+            binding.bottomNav.setSelectedItemId(navigateTo);
         }
 
         binding.bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.nav_home) { loadFragment(new HomeFragment()); return true; }
-            if (id == R.id.nav_search) { loadFragment(new SearchFragment()); return true; }
+            if (id == R.id.nav_home)     { loadFragment(new HomeFragment());     return true; }
+            if (id == R.id.nav_search)   { loadFragment(new SearchFragment());   return true; }
             if (id == R.id.nav_bookings) { loadFragment(new BookingsFragment()); return true; }
-            if (id == R.id.nav_map) { loadFragment(new MapFragment()); return true; }
-            if (id == R.id.nav_profile) { loadFragment(new ProfileFragment()); return true; }
+            if (id == R.id.nav_map)      { loadFragment(new MapFragment());      return true; }
+            if (id == R.id.nav_profile)  { loadFragment(new ProfileFragment());  return true; }
             return false;
         });
+    }
+
+    private Fragment fragmentForId(int id) {
+        if (id == R.id.nav_search)   return new SearchFragment();
+        if (id == R.id.nav_bookings) return new BookingsFragment();
+        if (id == R.id.nav_map)      return new MapFragment();
+        if (id == R.id.nav_profile)  return new ProfileFragment();
+        return new HomeFragment();
     }
 
     private void loadFragment(Fragment fragment) {

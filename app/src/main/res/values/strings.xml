@@ -40,4 +40,6 @@
     <string name="cart_empty">Your cart is empty</string>
     <string name="total">Total</string>
     <string name="checkout">Checkout</string>
+    <string name="payment">Payment</string>
+    <string name="pay_now">Pay Now</string>
 </resources>
