@@ -47,4 +47,7 @@
     <string name="write_review">Write a Review</string>
     <string name="cancel_booking">Cancel Booking</string>
     <string name="pay_remaining">Pay Remaining Balance</string>
+    <string name="map_title">Hotel Location</string>
+    <string name="get_directions">Get Directions</string>
+    <string name="call_hotel">Call Hotel</string>
 </resources>

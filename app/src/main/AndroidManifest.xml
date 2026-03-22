@@ -116,6 +116,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
 
+
         <service
             android:name=".services.StayEaseFCMService"
             android:exported="false">

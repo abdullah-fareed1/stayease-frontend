@@ -19,5 +19,6 @@ public class Constants {
     public static final String KEY_FCM_TOKEN = "fcm_token";
     public static final String NOTIFICATION_CHANNEL_ID = "stayease_channel";
     public static final String NOTIFICATION_CHANNEL_NAME = "StayEase Notifications";
-
+    public static final double HOTEL_LAT = 6.92726420169972;
+    public static final double HOTEL_LNG = 79.84496133515718;
 }
