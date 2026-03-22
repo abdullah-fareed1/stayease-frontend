@@ -8,5 +8,14 @@ public class BookingDetailResponse {
     @SerializedName("message")
     public String message;
     @SerializedName("data")
-    public BookingModel data;
+    public BookingDetailData data;
+
+    public static class BookingDetailData {
+        @SerializedName("booking")
+        public BookingModel booking;
+        @SerializedName("paymentAmount")
+        public double paymentAmount;
+        @SerializedName("nights")
+        public int nights;
+    }
 }

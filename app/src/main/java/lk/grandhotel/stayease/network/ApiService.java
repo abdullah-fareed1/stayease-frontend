@@ -8,6 +8,7 @@ import lk.grandhotel.stayease.network.models.AuthResponse;
 import lk.grandhotel.stayease.network.models.BookingDetailResponse;
 import lk.grandhotel.stayease.network.models.BookingListResponse;
 import lk.grandhotel.stayease.network.models.CartResponse;
+import lk.grandhotel.stayease.network.models.CheckoutResponse;
 import lk.grandhotel.stayease.network.models.DashboardResponse;
 import lk.grandhotel.stayease.network.models.HotelConfigResponse;
 import lk.grandhotel.stayease.network.models.PaymentInitiateResponse;
@@ -68,7 +69,7 @@ public interface ApiService {
     Call<BookingDetailResponse> createBooking(@Body Map<String, Object> body);
 
     @GET("bookings/my")
-    Call<BookingListResponse> getMyBookings();
+    Call<BookingListResponse> getMyBookings(@Query("status") String status);
 
     @GET("bookings/my/{id}")
     Call<BookingDetailResponse> getBookingById(@Path("id") String bookingId);
@@ -80,16 +81,16 @@ public interface ApiService {
     Call<CartResponse> getCart();
 
     @POST("cart/items")
-    Call<CartResponse> addToCart(@Body Map<String, Object> body);
+    Call<ApiResponse> addToCart(@Body Map<String, Object> body);
 
     @DELETE("cart/items/{itemId}")
-    Call<CartResponse> removeFromCart(@Path("itemId") String itemId);
+    Call<ApiResponse> removeFromCart(@Path("itemId") String itemId);
 
     @DELETE("cart")
     Call<ApiResponse> clearCart();
 
     @POST("cart/checkout")
-    Call<BookingListResponse> checkoutCart();
+    Call<CheckoutResponse> checkoutCart(@Body Map<String, String> body);
 
     @POST("payments/initiate")
     Call<PaymentInitiateResponse> initiatePayment(@Body Map<String, String> body);

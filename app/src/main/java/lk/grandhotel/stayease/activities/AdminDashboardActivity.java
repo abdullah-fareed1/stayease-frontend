@@ -3,7 +3,6 @@ package lk.grandhotel.stayease.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -66,17 +65,14 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private void populateDashboard(DashboardResponse.DashboardData data) {
         binding.layoutContent.setVisibility(View.VISIBLE);
 
-        if (data.stats != null) {
-            DashboardResponse.Stats s = data.stats;
-            binding.tvTotalRooms.setText(String.valueOf(s.totalRooms));
-            binding.tvAvailableRooms.setText(String.valueOf(s.availableRooms));
-            binding.tvCheckins.setText(String.valueOf(s.todayCheckIns));
-            binding.tvCheckouts.setText(String.valueOf(s.todayCheckOuts));
-            binding.tvMonthlyRevenue.setText("$" + (s.monthlyRevenue != null ? s.monthlyRevenue : "0.00"));
-            binding.tvTotalRevenue.setText("$" + (s.totalRevenue != null ? s.totalRevenue : "0.00"));
-            binding.tvTotalBookings.setText(String.valueOf(s.totalBookings));
-            binding.tvPendingBookings.setText(String.valueOf(s.pendingBookings));
-        }
+        binding.tvTotalRooms.setText(String.valueOf(data.totalRooms));
+        binding.tvAvailableRooms.setText(String.valueOf(data.availableRooms));
+        binding.tvCheckins.setText(String.valueOf(data.todayCheckIns));
+        binding.tvCheckouts.setText(String.valueOf(data.todayCheckOuts));
+        binding.tvMonthlyRevenue.setText(String.format("$%.2f", data.monthlyRevenue));
+        binding.tvTotalRevenue.setText(String.format("$%.2f", data.totalRevenue));
+        binding.tvTotalBookings.setText(String.valueOf(data.totalBookings));
+        binding.tvPendingBookings.setText(String.valueOf(data.pendingBookings));
 
         if (data.bestPerformingRooms != null && !data.bestPerformingRooms.isEmpty()) {
             binding.containerBestRooms.removeAllViews();
@@ -84,7 +80,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 View row = getLayoutInflater().inflate(R.layout.item_best_room, binding.containerBestRooms, false);
                 ((TextView) row.findViewById(R.id.tv_room_title)).setText(room.title);
                 ((TextView) row.findViewById(R.id.tv_room_bookings)).setText(room.bookingCount + " bookings");
-                ((TextView) row.findViewById(R.id.tv_room_revenue)).setText("$" + room.revenue);
+                ((TextView) row.findViewById(R.id.tv_room_revenue)).setText("");
                 binding.containerBestRooms.addView(row);
             }
         } else {

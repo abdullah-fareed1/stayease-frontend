@@ -12,15 +12,6 @@ public class DashboardResponse {
     public DashboardData data;
 
     public static class DashboardData {
-        @SerializedName("stats")
-        public Stats stats;
-        @SerializedName("bestPerformingRooms")
-        public List<BestRoom> bestPerformingRooms;
-        @SerializedName("revenueByMonth")
-        public List<MonthRevenue> revenueByMonth;
-    }
-
-    public static class Stats {
         @SerializedName("totalRooms")
         public int totalRooms;
         @SerializedName("availableRooms")
@@ -30,30 +21,34 @@ public class DashboardResponse {
         @SerializedName("todayCheckOuts")
         public int todayCheckOuts;
         @SerializedName("totalRevenue")
-        public String totalRevenue;
+        public double totalRevenue;
         @SerializedName("monthlyRevenue")
-        public String monthlyRevenue;
+        public double monthlyRevenue;
         @SerializedName("totalBookings")
         public int totalBookings;
         @SerializedName("pendingBookings")
         public int pendingBookings;
+        @SerializedName("bestPerformingRooms")
+        public List<BestRoom> bestPerformingRooms;
+        @SerializedName("revenueByMonth")
+        public List<MonthRevenue> revenueByMonth;
     }
 
     public static class BestRoom {
-        @SerializedName("id")
-        public String id;
+        @SerializedName("roomId")
+        public String roomId;
         @SerializedName("title")
         public String title;
         @SerializedName("bookingCount")
         public int bookingCount;
-        @SerializedName("revenue")
-        public String revenue;
+        @SerializedName("category")
+        public String category;
     }
 
     public static class MonthRevenue {
         @SerializedName("month")
         public String month;
         @SerializedName("revenue")
-        public String revenue;
+        public double revenue;
     }
 }

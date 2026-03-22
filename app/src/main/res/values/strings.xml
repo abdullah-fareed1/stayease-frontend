@@ -6,7 +6,6 @@
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="get_started">Get Started</string>
-
     <string name="admin_login_title">Admin Login</string>
     <string name="admin_panel">Admin Panel</string>
     <string name="admin_forgot_title">Forgot Password</string>
@@ -27,4 +26,18 @@
     <string name="best_performing_rooms">Best Performing Rooms</string>
     <string name="no_data">No data available</string>
     <string name="logout">Logout</string>
+    <string name="book_room">Book Room</string>
+    <string name="select_dates">Select Dates</string>
+    <string name="tap_to_select_dates">Tap to select check-in and check-out dates</string>
+    <string name="pick_dates">Pick Dates</string>
+    <string name="number_of_guests">Number of Guests</string>
+    <string name="payment_type">Payment Type</string>
+    <string name="partial_payment">Pay 50% now (advance)</string>
+    <string name="full_payment">Pay full amount</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="book_now">Book Now</string>
+    <string name="my_cart">My Cart</string>
+    <string name="cart_empty">Your cart is empty</string>
+    <string name="total">Total</string>
+    <string name="checkout">Checkout</string>
 </resources>

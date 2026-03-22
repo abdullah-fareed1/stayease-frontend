@@ -12,9 +12,16 @@ public class CartResponse {
     public CartData data;
 
     public static class CartData {
+        @SerializedName("cart")
+        public CartDetail cart;
+    }
+
+    public static class CartDetail {
         @SerializedName("id")
         public String id;
         @SerializedName("items")
         public List<CartItemModel> items;
+        @SerializedName("cartTotal")
+        public double cartTotal;
     }
 }

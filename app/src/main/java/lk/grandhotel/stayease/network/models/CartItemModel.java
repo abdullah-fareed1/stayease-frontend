@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 public class CartItemModel {
     @SerializedName("id")
     public String id;
-    @SerializedName("cartId")
-    public String cartId;
     @SerializedName("roomId")
     public String roomId;
     @SerializedName("checkIn")
@@ -15,6 +13,12 @@ public class CartItemModel {
     public String checkOut;
     @SerializedName("guestCount")
     public int guestCount;
+    @SerializedName("nights")
+    public int nights;
+    @SerializedName("subtotal")
+    public double subtotal;
+    @SerializedName("isRoomAvailable")
+    public boolean isRoomAvailable;
     @SerializedName("room")
     public RoomModel room;
 }

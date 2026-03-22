@@ -9,5 +9,12 @@ public class BookingListResponse {
     @SerializedName("message")
     public String message;
     @SerializedName("data")
-    public List<BookingModel> data;
+    public BookingListData data;
+
+    public static class BookingListData {
+        @SerializedName("bookings")
+        public List<BookingModel> bookings;
+        @SerializedName("meta")
+        public PaginationMeta meta;
+    }
 }

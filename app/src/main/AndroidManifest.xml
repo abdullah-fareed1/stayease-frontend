@@ -102,6 +102,10 @@
             android:name=".activities.AdminDashboardActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".activities.CartActivity"
+            android:exported="false" />
+
         <service
             android:name=".services.StayEaseFCMService"
             android:exported="false">
