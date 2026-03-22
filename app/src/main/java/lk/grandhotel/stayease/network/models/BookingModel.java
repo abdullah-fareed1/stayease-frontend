@@ -23,7 +23,7 @@ public class BookingModel {
     @SerializedName("guestCount")
     public int guestCount;
     @SerializedName("totalAmount")
-    public double totalAmount;
+    public String totalAmount;
     @SerializedName("status")
     public String status;
     @SerializedName("cancelledAt")
@@ -34,4 +34,12 @@ public class BookingModel {
     public RoomModel room;
     @SerializedName("payments")
     public List<PaymentModel> payments;
+
+    public double getTotalAmountDouble() {
+        try {
+            return totalAmount != null ? Double.parseDouble(totalAmount) : 0.0;
+        } catch (NumberFormatException e) {
+            return 0.0;
+        }
+    }
 }

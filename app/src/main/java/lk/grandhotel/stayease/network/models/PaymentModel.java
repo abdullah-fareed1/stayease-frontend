@@ -8,7 +8,7 @@ public class PaymentModel {
     @SerializedName("bookingId")
     public String bookingId;
     @SerializedName("amount")
-    public double amount;
+    public String amount;
     @SerializedName("type")
     public String type;
     @SerializedName("status")
@@ -19,4 +19,12 @@ public class PaymentModel {
     public String paidAt;
     @SerializedName("createdAt")
     public String createdAt;
+
+    public double getAmountDouble() {
+        try {
+            return amount != null ? Double.parseDouble(amount) : 0.0;
+        } catch (NumberFormatException e) {
+            return 0.0;
+        }
+    }
 }

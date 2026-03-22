@@ -173,7 +173,6 @@ public class BookingActivity extends AppCompatActivity {
 
     private void attemptBooking() {
         if (!validateInputs()) return;
-        int nights = DateUtils.calculateNights(checkInMs, checkOutMs);
         boolean isPartial = binding.rgPaymentType.getCheckedRadioButtonId() == R.id.rb_partial;
         showLoading(true);
         viewModel.createBooking(
@@ -211,7 +210,7 @@ public class BookingActivity extends AppCompatActivity {
                 boolean isPartial = binding.rgPaymentType.getCheckedRadioButtonId() == R.id.rb_partial;
                 Intent intent = new Intent(this, PaymentActivity.class);
                 intent.putExtra("bookingId", response.data.booking.id);
-                intent.putExtra("totalAmount", response.data.booking.totalAmount);
+                intent.putExtra("totalAmount", response.data.booking.getTotalAmountDouble());
                 intent.putExtra("paymentAmount", response.data.paymentAmount);
                 intent.putExtra("paymentType", isPartial ? "PARTIAL" : "FULL");
                 intent.putExtra("roomTitle", roomTitle);
