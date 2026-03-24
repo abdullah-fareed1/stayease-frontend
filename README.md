@@ -91,7 +91,7 @@ StayEase allows hotel guests to browse available rooms, make reservations in rea
 ```
    MAPS_API_KEY=your_google_maps_api_key
    STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
-   BASE_URL=http://10.0.2.2:3000/api/
+   BASE_URL=https://stayease-backend.vercel.app/api/
 ```
 
 4. Add `google-services.json` from your Firebase console into the `app/` folder
@@ -114,8 +114,8 @@ StayEase allows hotel guests to browse available rooms, make reservations in rea
 
 | Role | Hex |
 |------|-----|
-| Primary | `#4F46E5` |
-| Secondary | `#7C3AED` |
+| Primary | `#7C3AED` |
+| Secondary | `#4F46E5` |
 | Background | `#F8F9FA` |
 | Surface | `#FFFFFF` |
 | Error | `#EF4444` |
