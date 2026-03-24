@@ -45,7 +45,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Open in Google Maps"
+            android:text="Open Navigation in Google Maps"
             android:textColor="@color/on_primary"
             android:textSize="13sp"
             android:fontFamily="sans-serif-medium"/>
