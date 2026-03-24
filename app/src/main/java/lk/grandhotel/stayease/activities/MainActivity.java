@@ -15,6 +15,12 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+    private final androidx.activity.result.ActivityResultLauncher<String> notificationPermissionLauncher =
+            registerForActivityResult(
+                    new androidx.activity.result.contract.ActivityResultContracts.RequestPermission(),
+                    granted -> { /* nothing needed */ }
+            );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
             if (id == R.id.nav_profile)  { loadFragment(new ProfileFragment());  return true; }
             return false;
         });
+
+        // Request POST_NOTIFICATIONS permission on Android 13+ — only the launcher version
+        if (android.os.Build.VERSION.SDK_INT >= 33) {
+            if (androidx.core.content.ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.POST_NOTIFICATIONS)
+                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
     }
 
     private Fragment fragmentForId(int id) {
@@ -56,4 +71,7 @@ public class MainActivity extends AppCompatActivity {
     public void navigateToTab(int navItemId) {
         binding.bottomNav.setSelectedItemId(navItemId);
     }
+
+
+
 }

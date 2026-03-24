@@ -94,6 +94,13 @@ public class LoginActivity extends AppCompatActivity {
                 String fcmToken = task.isSuccessful() ? task.getResult() : null;
                 viewModel.login(email, password, fcmToken);
             });
+
+            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    android.util.Log.d("FCM_TOKEN", "Token: " + task.getResult());
+                }
+            });
+
         } catch (Exception e) {
             viewModel.login(email, password, null);
         }

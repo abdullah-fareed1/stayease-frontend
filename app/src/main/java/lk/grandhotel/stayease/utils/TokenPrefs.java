@@ -47,4 +47,14 @@ public class TokenPrefs {
     public static boolean hasTokens(Context context) {
         return getAccessToken(context) != null;
     }
+
+    public static void saveFcmToken(Context context, String fcmToken) {
+        getPrefs(context).edit()
+                .putString(Constants.KEY_FCM_TOKEN, fcmToken)
+                .apply();
+    }
+
+    public static String getFcmToken(Context context) {
+        return getPrefs(context).getString(Constants.KEY_FCM_TOKEN, null);
+    }
 }
