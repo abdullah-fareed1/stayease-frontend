@@ -53,6 +53,24 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
+        // TODO: Navigate to AdminRoomsActivity (Phase 14)
+        binding.btnManageRooms.setOnClickListener(v -> {
+            // startActivity(new Intent(this, AdminRoomsActivity.class));
+            Snackbar.make(binding.getRoot(), "Room management coming soon.", Snackbar.LENGTH_SHORT).show();
+        });
+
+        // TODO: Navigate to AdminBookingsActivity (Phase 15)
+        binding.btnManageBookings.setOnClickListener(v -> {
+            // startActivity(new Intent(this, AdminBookingsActivity.class));
+            Snackbar.make(binding.getRoot(), "Booking management coming soon.", Snackbar.LENGTH_SHORT).show();
+        });
+
+        // TODO: Navigate to AdminSendNotificationActivity (Phase 16)
+        binding.btnSendNotification.setOnClickListener(v -> {
+            // startActivity(new Intent(this, AdminSendNotificationActivity.class));
+            Snackbar.make(binding.getRoot(), "Notifications coming soon.", Snackbar.LENGTH_SHORT).show();
+        });
+
         binding.btnLogout.setOnClickListener(v ->
                 new MaterialAlertDialogBuilder(this)
                         .setTitle(getString(R.string.logout))
@@ -103,7 +121,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private void performLogout() {
         AdminTokenPrefs.clearTokens(this);
         AdminPrefs.clear(this);
-        Intent intent = new Intent(this, AdminLoginActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
