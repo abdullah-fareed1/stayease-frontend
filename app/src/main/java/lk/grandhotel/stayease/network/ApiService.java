@@ -20,10 +20,18 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
+import retrofit2.http.PUT;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import lk.grandhotel.stayease.network.models.AdminImageResponse;
+import lk.grandhotel.stayease.network.models.AdminRoomDetailResponse;
+import lk.grandhotel.stayease.network.models.AdminRoomListResponse;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public interface ApiService {
 
@@ -118,4 +126,24 @@ public interface ApiService {
 
     @GET("admin/dashboard/overview")
     Call<DashboardResponse> getAdminDashboard();
+    @GET("admin/rooms")
+    Call<AdminRoomListResponse> getAdminRooms();
+
+    @POST("admin/rooms")
+    Call<AdminRoomDetailResponse> createRoom(@Body Map<String, Object> body);
+
+    @PUT("admin/rooms/{id}")
+    Call<AdminRoomDetailResponse> updateRoom(@Path("id") String id, @Body Map<String, Object> body);
+
+    @PATCH("admin/rooms/{id}/availability")
+    Call<AdminRoomDetailResponse> setRoomAvailability(@Path("id") String id, @Body Map<String, Object> body);
+
+    @Multipart
+    @POST("admin/rooms/{id}/images")
+    Call<AdminImageResponse> uploadRoomImage(@Path("id") String id,
+                                             @Part MultipartBody.Part image,
+                                             @Part("isPrimary") RequestBody isPrimary);
+
+    @DELETE("admin/rooms/{id}/images/{imgId}")
+    Call<ApiResponse> deleteRoomImage(@Path("id") String id, @Path("imgId") String imgId);
 }

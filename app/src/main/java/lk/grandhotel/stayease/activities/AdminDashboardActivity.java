@@ -53,23 +53,16 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: Navigate to AdminRoomsActivity (Phase 14)
-        binding.btnManageRooms.setOnClickListener(v -> {
-            // startActivity(new Intent(this, AdminRoomsActivity.class));
-            Snackbar.make(binding.getRoot(), "Room management coming soon.", Snackbar.LENGTH_SHORT).show();
-        });
+        binding.btnManageRooms.setOnClickListener(v ->
+                startActivity(new Intent(this, AdminRoomsActivity.class)));
 
-        // TODO: Navigate to AdminBookingsActivity (Phase 15)
-        binding.btnManageBookings.setOnClickListener(v -> {
-            // startActivity(new Intent(this, AdminBookingsActivity.class));
-            Snackbar.make(binding.getRoot(), "Booking management coming soon.", Snackbar.LENGTH_SHORT).show();
-        });
+// TODO: Phase 15 — wire to AdminBookingsActivity
+        binding.btnManageBookings.setOnClickListener(v ->
+                Snackbar.make(binding.getRoot(), "Booking management coming in Phase 15.", Snackbar.LENGTH_SHORT).show());
 
-        // TODO: Navigate to AdminSendNotificationActivity (Phase 16)
-        binding.btnSendNotification.setOnClickListener(v -> {
-            // startActivity(new Intent(this, AdminSendNotificationActivity.class));
-            Snackbar.make(binding.getRoot(), "Notifications coming soon.", Snackbar.LENGTH_SHORT).show();
-        });
+// TODO: Phase 16 — wire to AdminSendNotificationActivity
+        binding.btnSendNotification.setOnClickListener(v ->
+                Snackbar.make(binding.getRoot(), "Notifications coming in Phase 16.", Snackbar.LENGTH_SHORT).show());
 
         binding.btnLogout.setOnClickListener(v ->
                 new MaterialAlertDialogBuilder(this)

@@ -116,6 +116,19 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
 
+        <activity
+            android:name=".activities.AdminRoomsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.AdminCreateRoomActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".activities.AdminRoomDetailActivity"
+            android:exported="false" />
+
 
         <service
             android:name=".services.StayEaseFCMService"
