@@ -30,6 +30,11 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(AdminViewModel.class);
 
+        // Setup SwipeRefreshLayout
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            viewModel.loadDashboard();
+        });
+
         String name = AdminPrefs.getAdminName(this);
         binding.tvAdminName.setText(name != null ? name : "Admin");
 
@@ -40,6 +45,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         viewModel.loadDashboard();
 
         viewModel.dashboardResult.observe(this, response -> {
+            binding.swipeRefresh.setRefreshing(false);
             hideLoading();
             if (response != null && response.data != null) {
                 populateDashboard(response.data);
@@ -47,6 +53,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         });
 
         viewModel.authError.observe(this, msg -> {
+            binding.swipeRefresh.setRefreshing(false);
             hideLoading();
             if (msg != null) {
                 Snackbar.make(binding.getRoot(), msg, Snackbar.LENGTH_LONG).show();
@@ -58,7 +65,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
 // TODO: Phase 15 — wire to AdminBookingsActivity
         binding.btnManageBookings.setOnClickListener(v ->
-                Snackbar.make(binding.getRoot(), "Booking management coming in Phase 15.", Snackbar.LENGTH_SHORT).show());
+                startActivity(new Intent(this, AdminBookingsActivity.class)));
 
 // TODO: Phase 16 — wire to AdminSendNotificationActivity
         binding.btnSendNotification.setOnClickListener(v ->

@@ -129,6 +129,18 @@
             android:name=".activities.AdminRoomDetailActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".activities.AdminBookingsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.AdminBookingDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.AdminCreateWalkInActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name=".services.StayEaseFCMService"

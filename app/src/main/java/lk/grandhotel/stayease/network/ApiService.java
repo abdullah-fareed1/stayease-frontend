@@ -27,6 +27,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import lk.grandhotel.stayease.network.models.AdminBookingDetailResponse;
+import lk.grandhotel.stayease.network.models.AdminBookingListResponse;
 import lk.grandhotel.stayease.network.models.AdminImageResponse;
 import lk.grandhotel.stayease.network.models.AdminRoomDetailResponse;
 import lk.grandhotel.stayease.network.models.AdminRoomListResponse;
@@ -146,4 +148,16 @@ public interface ApiService {
 
     @DELETE("admin/rooms/{id}/images/{imgId}")
     Call<ApiResponse> deleteRoomImage(@Path("id") String id, @Path("imgId") String imgId);
+
+    @GET("admin/bookings")
+    Call<AdminBookingListResponse> getAdminBookings(@Query("status") String status, @Query("page") Integer page);
+
+    @GET("admin/bookings/{id}")
+    Call<AdminBookingDetailResponse> getAdminBookingById(@Path("id") String id);
+
+    @POST("admin/bookings/walk-in")
+    Call<AdminBookingDetailResponse> createWalkIn(@Body Map<String, Object> body);
+
+    @PATCH("admin/bookings/{id}/status")
+    Call<AdminBookingDetailResponse> updateBookingStatus(@Path("id") String id, @Body Map<String, Object> body);
 }
