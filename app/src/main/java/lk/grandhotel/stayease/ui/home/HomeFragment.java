@@ -48,12 +48,16 @@ public class HomeFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
-        roomAdapter = new RoomAdapter(room -> {
+        roomAdapter = new RoomAdapter((room, sharedImageView) -> {
             Intent intent = new Intent(requireContext(), RoomDetailActivity.class);
             intent.putExtra("roomId", room.id);
-            startActivity(intent);
+            androidx.core.app.ActivityOptionsCompat options =
+                    androidx.core.app.ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            requireActivity(),
+                            sharedImageView,
+                            "room_image_" + room.id);
+            startActivity(intent, options.toBundle());
         });
-
         headerAdapter = new HomeHeaderAdapter(category -> viewModel.loadRooms(category));
 
         String name = UserPrefs.getUserName(requireContext());

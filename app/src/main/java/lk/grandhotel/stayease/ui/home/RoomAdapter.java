@@ -23,7 +23,7 @@ import lk.grandhotel.stayease.network.models.RoomModel;
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder> {
 
     public interface OnRoomClickListener {
-        void onRoomClick(RoomModel room);
+        void onRoomClick(RoomModel room, View sharedImageView);
     }
 
     private List<RoomModel> rooms = new ArrayList<>();
@@ -105,7 +105,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
                     .centerCrop()
                     .into(ivImage);
 
-            itemView.setOnClickListener(v -> listener.onRoomClick(room));
+            androidx.core.view.ViewCompat.setTransitionName(ivImage, "room_image_" + room.id);
+
+            itemView.setOnClickListener(v -> listener.onRoomClick(room, ivImage));
         }
     }
 }

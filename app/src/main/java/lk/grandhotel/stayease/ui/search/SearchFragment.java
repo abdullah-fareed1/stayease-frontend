@@ -61,10 +61,15 @@ public class SearchFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
-        adapter = new RoomAdapter(room -> {
+        adapter = new RoomAdapter((room, sharedImageView) -> {
             Intent intent = new Intent(requireContext(), RoomDetailActivity.class);
             intent.putExtra("roomId", room.id);
-            startActivity(intent);
+            androidx.core.app.ActivityOptionsCompat options =
+                    androidx.core.app.ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            requireActivity(),
+                            sharedImageView,
+                            "room_image_" + room.id);
+            startActivity(intent, options.toBundle());
         });
 
         binding.rvSearchResults.setLayoutManager(new LinearLayoutManager(requireContext()));

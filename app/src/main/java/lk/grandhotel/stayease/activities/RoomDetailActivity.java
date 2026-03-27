@@ -115,6 +115,7 @@ public class RoomDetailActivity extends AppCompatActivity {
     }
 
     private void bindRoom(RoomModel room) {
+        androidx.core.view.ViewCompat.setTransitionName(viewPager, "room_image_" + room.id);
         tvRoomTitle.setText(room.title);
         tvDescription.setText(room.description);
         chipCategory.setText(room.category != null ? room.category : "");

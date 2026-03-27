@@ -9,6 +9,9 @@
         <item name="colorError">@color/error</item>
         <item name="android:statusBarColor">@color/background</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowEnterTransition">@android:transition/slide_right</item>
+        <item name="android:windowExitTransition">@android:transition/slide_left</item>
     </style>
 
     <style name="Theme.StayEase.Splash" parent="Theme.Material3.DayNight.NoActionBar">
@@ -22,4 +25,5 @@
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">12dp</item>
     </style>
+
 </resources>
