@@ -63,13 +63,11 @@ public class AdminDashboardActivity extends AppCompatActivity {
         binding.btnManageRooms.setOnClickListener(v ->
                 startActivity(new Intent(this, AdminRoomsActivity.class)));
 
-// TODO: Phase 15 — wire to AdminBookingsActivity
         binding.btnManageBookings.setOnClickListener(v ->
                 startActivity(new Intent(this, AdminBookingsActivity.class)));
 
-// TODO: Phase 16 — wire to AdminSendNotificationActivity
         binding.btnSendNotification.setOnClickListener(v ->
-                Snackbar.make(binding.getRoot(), "Notifications coming in Phase 16.", Snackbar.LENGTH_SHORT).show());
+                startActivity(new Intent(this, AdminSendNotificationActivity.class)));
 
         binding.btnLogout.setOnClickListener(v ->
                 new MaterialAlertDialogBuilder(this)

@@ -160,4 +160,7 @@ public interface ApiService {
 
     @PATCH("admin/bookings/{id}/status")
     Call<AdminBookingDetailResponse> updateBookingStatus(@Path("id") String id, @Body Map<String, Object> body);
+
+    @POST("admin/notifications/send")
+    Call<ApiResponse> sendNotification(@Body Map<String, Object> body);
 }

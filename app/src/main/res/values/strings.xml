@@ -50,4 +50,22 @@
     <string name="map_title">Hotel Location</string>
     <string name="get_directions">Get Directions</string>
     <string name="call_hotel">Call Hotel</string>
+    <string name="send_notification">Send Notification</string>
+    <string name="notification_title">Notification Title</string>
+    <string name="notification_title_hint">Enter notification title (max 100 characters)</string>
+    <string name="notification_body">Notification Message</string>
+    <string name="notification_body_hint">Enter notification message (max 500 characters)</string>
+    <string name="target_type">Send To</string>
+    <string name="all_guests">All Guests</string>
+    <string name="specific_guest">Specific Guest</string>
+    <string name="user_id">User ID</string>
+    <string name="user_id_hint">Enter guest email or user ID</string>
+    <string name="notification_preview">Preview</string>
+    <string name="send">Send</string>
+    <string name="notification_sent_success">Notification sent successfully!</string>
+    <string name="notification_sent_error">Failed to send notification</string>
+    <string name="title_required">Please enter a notification title</string>
+    <string name="body_required">Please enter a notification message</string>
+    <string name="user_id_required">Please enter a user ID or email</string>
+    <string name="characters">characters</string>
 </resources>
