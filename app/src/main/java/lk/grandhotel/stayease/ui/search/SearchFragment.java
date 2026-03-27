@@ -32,6 +32,7 @@ import lk.grandhotel.stayease.activities.RoomDetailActivity;
 import lk.grandhotel.stayease.databinding.FragmentSearchBinding;
 import lk.grandhotel.stayease.network.models.RoomModel;
 import lk.grandhotel.stayease.ui.home.RoomAdapter;
+import lk.grandhotel.stayease.utils.NetworkUtils;
 
 public class SearchFragment extends Fragment {
 
@@ -42,6 +43,8 @@ public class SearchFragment extends Fragment {
 
     private String  activeCategory  = null;
     private boolean activeAvailable = true;
+
+    private Snackbar offlineSnackbar;
 
     @Nullable
     @Override
@@ -79,6 +82,21 @@ public class SearchFragment extends Fragment {
         });
 
         viewModel.history.observe(getViewLifecycleOwner(), this::renderHistoryChips);
+
+        NetworkUtils.getIsOnlineLiveData().observe(getViewLifecycleOwner(), online -> {
+            if (binding == null) return;
+            if (Boolean.FALSE.equals(online)) {
+                offlineSnackbar = Snackbar.make(
+                        binding.getRoot(),
+                        "No internet connection — showing cached data",
+                        Snackbar.LENGTH_INDEFINITE);
+                offlineSnackbar.show();
+            } else {
+                if (offlineSnackbar != null && offlineSnackbar.isShown()) {
+                    offlineSnackbar.dismiss();
+                }
+            }
+        });
 
         binding.etSearch.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -194,5 +212,6 @@ public class SearchFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        if (offlineSnackbar != null) offlineSnackbar.dismiss();
     }
 }

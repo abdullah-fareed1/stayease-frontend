@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
             }
         }
+
+        schedulePeriodicSync();
     }
 
     private Fragment fragmentForId(int id) {
@@ -72,6 +74,24 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNav.setSelectedItemId(navItemId);
     }
 
+    private void schedulePeriodicSync() {
+        androidx.work.Constraints constraints = new androidx.work.Constraints.Builder()
+                .setRequiredNetworkType(androidx.work.NetworkType.CONNECTED)
+                .build();
+
+        androidx.work.PeriodicWorkRequest syncRequest =
+                new androidx.work.PeriodicWorkRequest.Builder(
+                        lk.grandhotel.stayease.services.SyncWorker.class,
+                        30,
+                        java.util.concurrent.TimeUnit.MINUTES)
+                        .setConstraints(constraints)
+                        .build();
+
+        androidx.work.WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "room_sync",
+                androidx.work.ExistingPeriodicWorkPolicy.KEEP,
+                syncRequest);
+    }
 
 
 }

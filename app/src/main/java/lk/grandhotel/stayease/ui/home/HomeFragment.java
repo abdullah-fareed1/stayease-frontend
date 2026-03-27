@@ -7,33 +7,31 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.Calendar;
 import java.util.List;
-
 import lk.grandhotel.stayease.activities.RoomDetailActivity;
 import lk.grandhotel.stayease.databinding.FragmentHomeBinding;
 import lk.grandhotel.stayease.network.models.RoomModel;
+import lk.grandhotel.stayease.utils.NetworkUtils;
 import lk.grandhotel.stayease.utils.ShakeDetector;
 import lk.grandhotel.stayease.utils.UserPrefs;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private HomeViewModel       viewModel;
-    private RoomAdapter         roomAdapter;
-    private HomeHeaderAdapter   headerAdapter;
-    private SensorManager       sensorManager;
-    private ShakeDetector       shakeDetector;
+    private HomeViewModel viewModel;
+    private RoomAdapter roomAdapter;
+    private HomeHeaderAdapter headerAdapter;
+    private SensorManager sensorManager;
+    private ShakeDetector shakeDetector;
+    private Snackbar offlineSnackbar;
 
     @Nullable
     @Override
@@ -56,9 +54,7 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-        headerAdapter = new HomeHeaderAdapter(category -> {
-            viewModel.loadRooms(category);
-        });
+        headerAdapter = new HomeHeaderAdapter(category -> viewModel.loadRooms(category));
 
         String name = UserPrefs.getUserName(requireContext());
         headerAdapter.setUserName(name);
@@ -81,6 +77,21 @@ public class HomeFragment extends Fragment {
         });
         viewModel.cartCount.observe(getViewLifecycleOwner(), count ->
                 headerAdapter.setCartCount(count));
+
+        NetworkUtils.getIsOnlineLiveData().observe(getViewLifecycleOwner(), online -> {
+            if (binding == null) return;
+            if (Boolean.FALSE.equals(online)) {
+                offlineSnackbar = Snackbar.make(
+                        binding.getRoot(),
+                        "No internet connection — showing cached data",
+                        Snackbar.LENGTH_INDEFINITE);
+                offlineSnackbar.show();
+            } else {
+                if (offlineSnackbar != null && offlineSnackbar.isShown()) {
+                    offlineSnackbar.dismiss();
+                }
+            }
+        });
 
         setupShakeDetector();
         viewModel.loadRooms(null);
@@ -106,6 +117,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (offlineSnackbar != null) offlineSnackbar.dismiss();
         binding = null;
     }
 
@@ -125,7 +137,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupShakeDetector() {
-        sensorManager = (SensorManager) requireContext().getSystemService(android.content.Context.SENSOR_SERVICE);
+        sensorManager = (SensorManager)
+                requireContext().getSystemService(android.content.Context.SENSOR_SERVICE);
         shakeDetector = new ShakeDetector(() -> {
             if (getView() != null) {
                 Snackbar.make(binding.getRoot(), "Refreshing rooms...", Snackbar.LENGTH_SHORT).show();
