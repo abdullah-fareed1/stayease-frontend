@@ -10,6 +10,7 @@ import lk.grandhotel.stayease.ui.home.HomeFragment;
 import lk.grandhotel.stayease.ui.map.MapFragment;
 import lk.grandhotel.stayease.ui.profile.ProfileFragment;
 import lk.grandhotel.stayease.ui.search.SearchFragment;
+import lk.grandhotel.stayease.utils.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         schedulePeriodicSync();
+        NetworkUtils.registerNetworkCallback(this);
     }
 
     private Fragment fragmentForId(int id) {
@@ -91,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
                 "room_sync",
                 androidx.work.ExistingPeriodicWorkPolicy.KEEP,
                 syncRequest);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NetworkUtils.unregisterNetworkCallback(this);
     }
 
 
